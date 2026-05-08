@@ -28,7 +28,11 @@ export default function ProductList() {
     return (
         <ListContainer>
             {products.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard 
+                key={product.id} 
+                itemId = {product.id} 
+                product={product} 
+            />
             ))}
         </ListContainer>
         

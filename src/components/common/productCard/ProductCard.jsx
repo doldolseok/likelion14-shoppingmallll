@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {useNavigate} from "react-router-dom";
 
 const CardContainer = styled.div`
     display: flex;
@@ -37,9 +38,12 @@ const ProductReview = styled.p`
     font-weight: 400;
 `;
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, itemId }) {
+
+    const navigate =useNavigate();
+
     return (
-        <CardContainer>
+        <CardContainer onClick={()=>navigate(`/item/${itemId}`)}>
             <ProductImage src={product.image} alt={product.name} />
             <ProductName>{product.name}</ProductName>
             <ProductPrice>{product.price.toLocaleString()}원</ProductPrice>
