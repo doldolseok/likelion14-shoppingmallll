@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { itemData, updateItem } from "../../../itemDetail/itemDummy.js";
+import { getItem, patchItem } from "../../../api/shop.js";
 
 const Container = styled.div`
     display: flex;
@@ -148,21 +148,36 @@ const GENDERS = ["남성", "여성", "남녀공용"];
 const COLORS = ["red", "pink", "blue", "gray", "black", "denim", "multi", "rainbow", "holographic"];
 
 export default function Edit() {
-    const { id } = useParams();
+    const { type, id } = useParams();
     const navigate = useNavigate();
-    const product = itemData.find(item => item.id === Number(id));
-
-    const [imagePreview, setImagePreview] = useState(product?.image || null);
+    const [product, setProduct] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const [form, setForm] = useState({
-        name: product?.name || "",
-        rating: product?.rating || "",
-        review: product?.review || "",
-        price: product?.price || "",
-        size: product?.size || "",
-        category: product?.category || "",
-        gender: product?.gender || "",
-        color: product?.color || "",
+        name: "", rating: "", review: "", price: "",
+        size: "", category: "", gender: "", color: "",
     });
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await getItem(type, id);
+                setProduct(data);
+                setImagePreview(data.image || null);
+                setForm({
+                    name: data.name || "",
+                    rating: data.rating || "",
+                    review: data.review || "",
+                    price: data.price || "",
+                    size: data.size || "",
+                    category: data.category || "",
+                    gender: data.gender || "",
+                    color: data.color || "",
+                });
+            } catch {
+                setProduct(null);
+            }
+        })();
+    }, [type, id]);
 
     if (!product) return <div>상품을 찾을 수 없습니다.</div>;
 
@@ -176,8 +191,8 @@ export default function Edit() {
         setForm(prev => ({ ...prev, [key]: value }));
     };
 
-    const handleSubmit = () => {
-        updateItem(Number(id), {
+    const handleSubmit = async () => {
+        await patchItem(type, id, {
             name: form.name,
             rating: Number(form.rating),
             review: Number(form.review),
@@ -188,7 +203,7 @@ export default function Edit() {
             color: form.color,
             image: imagePreview,
         });
-        navigate(`/item/${id}`);
+        navigate(`/item/${type}/${id}`);
     };
 
     return (

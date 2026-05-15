@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { itemData, deleteItem } from "./itemDummy.js";
+import { useEffect, useState } from "react";
+import { getItem, deleteItem } from "../api/shop.js";
 import styled from "styled-components";
 import { useDeleteModal } from "../context/DeleteModalContext";
 
@@ -123,16 +124,26 @@ const ModalBtn = styled.button`
 `;
 
 export default function ItemDetail() {
-    const { id } = useParams();
+    const { type, id } = useParams();
     const navigate = useNavigate();
     const { showDeleteModal, setShowDeleteModal } = useDeleteModal();
+    const [product, setProduct] = useState(null);
 
-    const product = itemData.find(item => item.id === Number(id));
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await getItem(type, id);
+                setProduct(data);
+            } catch {
+                setProduct(null);
+            }
+        })();
+    }, [type, id]);
 
     if (!product) return <div>상품을 찾을 수 없습니다.</div>;
 
-    const handleDelete = () => {
-        deleteItem(Number(id));
+    const handleDelete = async () => {
+        await deleteItem(type, id);
         setShowDeleteModal(false);
         navigate("/");
     };
@@ -149,7 +160,7 @@ export default function ItemDetail() {
                     <RatingRow>
                         <StarIcon>★</StarIcon>
                         <RatingText>{product.rating}</RatingText>
-                        <RatingText>리뷰 {product.review.toLocaleString()}</RatingText>
+                        <RatingText>리뷰 {product.reviews?.toLocaleString()}</RatingText>
                     </RatingRow>
                 </InfoSection>
             </Container>

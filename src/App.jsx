@@ -11,9 +11,9 @@ function App() {
             <Routes>
                 <Route element={<RootLayout />}>
                     <Route path="/" element={<Main />} />
-                    <Route path="/item/:id" element={<ItemDetail />} />
+                    <Route path="/item/:type/:id" element={<ItemDetail />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/item/:id/edit" element={<Edit />} />
+                    <Route path="/item/:type/:id/edit" element={<Edit />} />
                 </Route>
             </Routes>
         </BrowserRouter>

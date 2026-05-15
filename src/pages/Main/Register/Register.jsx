@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addItem } from "../../../itemDetail/itemDummy.js";
+import { postItem } from "../../../api/shop.js";
 
 const Container = styled.div`
     display: flex;
@@ -173,9 +173,10 @@ export default function Register() {
         setForm(prev => ({ ...prev, [key]: value }));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!form.name || !form.price) return alert("상품명과 가격은 필수입니다.");
-        addItem({
+        const type = form.category === "신발" ? "shoes" : "clothes";
+        await postItem(type, {
             name: form.name,
             rating: Number(form.rating),
             review: Number(form.review),
@@ -186,7 +187,6 @@ export default function Register() {
             color: form.color,
             image: imagePreview || "",
             soldout: false,
-            type: "shirt",
         });
         navigate("/");
     };

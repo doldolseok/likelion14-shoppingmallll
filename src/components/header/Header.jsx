@@ -38,7 +38,9 @@ export default function Header() {
     const navigate = useNavigate();
     const { setShowDeleteModal } = useDeleteModal();
     const isItemDetail = pathname.startsWith("/item/");
-    const itemId = isItemDetail ? pathname.split("/")[2] : null;
+    const pathParts = pathname.split("/"); // ["", "item", type, id, ...]
+    const itemType = isItemDetail ? pathParts[2] : null;
+    const itemId = isItemDetail ? pathParts[3] : null;
 
     return (
         <div>
@@ -50,7 +52,7 @@ export default function Header() {
                             <>
                                 <Button onClick={() => navigate("/register")}>상품등록</Button>
                                 <Button onClick={() => setShowDeleteModal(true)}>상품삭제</Button>
-                                <Button onClick={() => navigate(`/item/${itemId}/edit`)}>상품수정</Button>
+                                <Button onClick={() => navigate(`/item/${itemType}/${itemId}/edit`)}>상품수정</Button>
                             </>
                         ) : (
                             <Button onClick={() => navigate("/register")}>상품등록</Button>

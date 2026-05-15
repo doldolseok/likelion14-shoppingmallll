@@ -38,16 +38,16 @@ const ProductReview = styled.p`
     font-weight: 400;
 `;
 
-export default function ProductCard({ product, itemId }) {
+export default function ProductCard({ product, itemId, type="clothes" }) {
 
     const navigate =useNavigate();
 
     return (
-        <CardContainer onClick={()=>navigate(`/item/${itemId}`)}>
+        <CardContainer onClick={()=>navigate(`/item/${type}/${itemId}`)}>
             <ProductImage src={product.image} alt={product.name} />
             <ProductName>{product.name}</ProductName>
-            <ProductPrice>{product.price.toLocaleString()}원</ProductPrice>
-            <ProductReview>리뷰 {product.review.toLocaleString()}</ProductReview>
+            <ProductPrice>{product.price?.toLocaleString()}원</ProductPrice>
+            <ProductReview>리뷰 {product.reviews?.toLocaleString()}</ProductReview>
         </CardContainer>
     );
 }
