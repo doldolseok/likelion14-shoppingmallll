@@ -2,7 +2,7 @@ import styled from "styled-components";
 import logoUrl from "../../assets/images/kream_image.png";
 import homeUrl from "../../assets/icons/home_icon.png";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDeleteModal } from "../../context/DeleteModalContext";
+import { useDeleteModal } from "../../context/DeletemodalContext";
 
 
 const LogoImage = styled.img`width: 166px; height: 141px;`;

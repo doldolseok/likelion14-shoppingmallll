@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getItem, deleteItem } from "../api/shop.js";
 import styled from "styled-components";
-import { useDeleteModal } from "../context/DeleteModalContext";
+import { useDeleteModal } from "../context/DeletemodalContext";
 
 const Container = styled.div`
     display: flex;
