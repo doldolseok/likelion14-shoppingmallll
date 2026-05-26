@@ -7,6 +7,7 @@ import { useDeleteModal } from "../../context/DeleteModalContext";
 
 const LogoImage = styled.img`width: 166px; height: 141px;`;
 const HomeIcon = styled.img`width: 61px; height: 24px;`;
+
 const HeaderContainer = styled.div`
     padding-right: 160px;
     padding-left: 160px;
